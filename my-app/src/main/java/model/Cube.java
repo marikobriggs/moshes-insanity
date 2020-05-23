@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,6 +9,15 @@ public class Cube {
     public static final int NUM_OF_FACES = 6;
 
     Color front, right, back, left, top, bottom;
+
+    public Cube() {
+        this.front = Color.RED;
+        this.right = Color.ORANGE;
+        this.back = Color.GREEN;
+        this.left = Color.BLUE;
+        this.top = Color.PURPLE;
+        this.bottom = Color.WHITE;
+    }
 
     /**
      * 
@@ -82,92 +92,108 @@ public class Cube {
      * Rotates a cube so that the Red face is facing the front.
      * 
      * @param cube
-     * @return the same cube with RED facing front. 
+     * @return the same cube with RED facing front.
      */
     public Cube toStandardOrientation(Cube cube) {
         // the color we want to face the FRONT, always!
         Color stdColor = Color.RED;
-        Cube standardCube = new Cube(); 
+        Cube standardCube = new Cube();
 
         // how to rotate each cube to get the given color to the FRONT
         if (cube.getFront() == stdColor) {
             return cube;
         } else if (cube.getRight() == stdColor) { // RBLF --> FRBL
-            standardCube = rotateLeft(cube); 
+            standardCube = rotateLeft(cube);
 
         } else if (cube.getBack() == stdColor) { // BLFR --> FRBL
-            standardCube = rotateRight(rotateRight(cube)); 
+            standardCube = rotateRight(rotateRight(cube));
 
         } else if (cube.getLeft() == stdColor) { // LFRB --> FRBL
-            standardCube = rotateRight(cube); 
+            standardCube = rotateRight(cube);
 
         } else if (cube.getTop() == stdColor) { // --> FRBLTBo
-            standardCube = rotateDown(cube); 
+            standardCube = rotateDown(cube);
 
-        } else if (cube.getBottom() == stdColor) { // --> 
-            standardCube = rotateUp(cube); 
+        } else if (cube.getBottom() == stdColor) { // -->
+            standardCube = rotateUp(cube);
         }
-        return standardCube; 
+        return standardCube;
     }
 
     /**
-     * Rotates the given cube to the left such that the front face becomes the left face. 
+     * Rotates the given cube to the left such that the front face becomes the left
+     * face.
+     * 
      * @param cube the cube to be rotated to the left
      * @return the given cube, rotated once to the left
      */
-    public Cube rotateLeft(Cube cube) { 
-        return new Cube(cube.getLeft(), cube.getFront(), cube.getRight(), cube.getBack(), cube.getTop(), cube.getBottom()); 
+    public Cube rotateLeft(Cube cube) {
+        // return new Cube(cube.getLeft(), cube.getFront(), cube.getRight(),
+        // cube.getBack(), cube.getTop(),
+        // cube.getBottom());
+        return rotateRight(rotateRight(rotateRight(cube)));
     }
 
     /**
-     * Rotates the given cube to the right such that the front face becomes the right face. 
+     * Rotates the given cube to the right such that the front face becomes the
+     * right face.
+     * 
      * @param cube the cube to be rotated to the right
      * @return the given cube, rotated once to the right
      */
     public Cube rotateRight(Cube cube) {
-        return new Cube(cube.getRight(), cube.getBack(), cube.getLeft(), cube.getFront(), cube.getTop(), cube.getBottom()); 
-    }
-    
-    /**
-     * Rotates the given cube upwards such that the front face becomes the top face. 
-     * @param cube the cube to be rotated upwards 
-     * @return the given cube, rotated once upwards 
-     */
-    public Cube rotateUp(Cube cube) { 
-        return new Cube(cube.getTop(), cube.getRight(), cube.getBottom(), cube.getLeft(), cube.getBack(), cube.getFront()); 
+        return new Cube(cube.getRight(), cube.getBack(), cube.getLeft(), cube.getFront(), cube.getTop(),
+                cube.getBottom());
     }
 
     /**
-     * Rotates the given cube downwards such that the front face becomes the bottom face. 
+     * Rotates the given cube upwards such that the front face becomes the top face.
+     * 
+     * @param cube the cube to be rotated upwards
+     * @return the given cube, rotated once upwards
+     */
+    public Cube rotateUp(Cube cube) {
+        return new Cube(cube.getTop(), cube.getRight(), cube.getBottom(), cube.getLeft(), cube.getBack(),
+                cube.getFront());
+    }
+
+    /**
+     * Rotates the given cube downwards such that the front face becomes the bottom
+     * face.
+     * 
      * @param cube the cube to be rotated downwards
-     * @return the given cube, rotated once downwards 
+     * @return the given cube, rotated once downwards
      */
     public Cube rotateDown(Cube cube) {
-        return new Cube(cube.getBottom(), cube.getRight(), cube.getTop(), cube.getLeft(), cube.getFront(), cube.getBack()); 
+        // return new Cube(cube.getBottom(), cube.getRight(), cube.getTop(),
+        // cube.getLeft(), cube.getFront(),
+        // cube.getBack());
+        return rotateUp(rotateUp(rotateUp(cube)));
     }
 
     /**
      * Is this necessary? reasses
+     * 
      * @param cubes to be compared
-     * @return  
+     * @return
      */
     public Boolean isCyclic(Cube c1, Cube c2) {
         // TODO: implement isCyclic
-        // look at first 4 array elements, use permutation approach to determine which perm it is 
+        // look at first 4 array elements, use permutation approach to determine which
+        // perm it is
         return false;
     }
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
+        return Arrays.deepToString(this.getArray());
     }
 
     @Override
     public boolean equals(Object obj) {
 
         Cube cube1 = (Cube) obj;
-        //TODO 
+        // TODO
 
         return false;
     }

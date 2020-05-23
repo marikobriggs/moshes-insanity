@@ -15,16 +15,30 @@ import model.Puzzle;
  */
 public class InputController {
 
-    String[] COLORS = new String[] { "red", "orange", "green", "blue", "purple", "white", "r", "o", "g", "b", "p",
+    private static Scanner sc;
+    final String[] COLORS = new String[] { "red", "orange", "green", "blue", "purple", "white", "r", "o", "g", "b", "p",
             "w" };
 
+    final static String[] FACES = new String[] { "front", "right", "back", "left", "top", "bottom" };
+
     /**
-     * Combines everything! Takes input, creates puzzle
+     * Combines everything! Takes input, creates puzzle, offers to change input
      */
     public static void inputToPuzzle() {
-        printPromptMessage();
-        String[] inputArray = takeStdInput();
-        Puzzle puzzle = convertInputArrayToPuzzle(inputArray);
+        Puzzle puzzle = new Puzzle();
+
+        printInitialPromptMessage();
+        final String choice = chooseCubeInputType();
+        if (choice.equals("r")) { // random set of cubes
+            printRandomPromptMessage();
+            puzzle = RandomController.getRandomPuzzle();
+
+        } else { // user's choice of cubes
+            printChoicePromptMessage();
+            final String[] inputArray = takeStdInput();
+            puzzle = convertInputArrayToPuzzle(inputArray);
+        }
+        changeCubeInPuzzle(puzzle);
     }
 
     /**
@@ -34,12 +48,12 @@ public class InputController {
      */
     public static String[] takeStdInput() {
         // contains all of the faces in order of acceptance
-        String[] faces = new String[] { "front", "right", "back", "left", "top", "bottom" };
+        final String[] faces = new String[] { "front", "right", "back", "left", "top", "bottom" };
 
-        final Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
 
         // final array of colors for any given cube
-        String[] inputArray = new String[Puzzle.NUM_OF_CUBES];
+        final String[] inputArray = new String[Puzzle.NUM_OF_CUBES];
         // System.out.println(Arrays.toString(inputArray));
         String[] cubeArray = new String[Cube.NUM_OF_FACES];
         for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
@@ -72,7 +86,7 @@ public class InputController {
     public static String[] takeStdInputCube() {
         final Scanner sc = new Scanner(System.in);
         // array of colors for any given cube
-        String[] inputArray = new String[Puzzle.NUM_OF_CUBES];
+        final String[] inputArray = new String[Puzzle.NUM_OF_CUBES];
 
         for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
             System.out.println("Enter cube #" + (i + 1));
@@ -89,9 +103,9 @@ public class InputController {
      * @param input a string of 6 ordered colors, delimited with a space
      * @return a Cube with sides of user's colors
      */
-    public static Cube convertInputStringToCube(String input) {
-        String[] inputArr = input.split("[ ,]");
-        Color[] faces = new Color[Cube.NUM_OF_FACES];
+    public static Cube convertInputStringToCube(final String input) {
+        final String[] inputArr = input.split("[ ,]");
+        final Color[] faces = new Color[Cube.NUM_OF_FACES];
 
         for (int i = 0; i < Cube.NUM_OF_FACES; i++) {
             switch (inputArr[i].toLowerCase()) {
@@ -130,8 +144,8 @@ public class InputController {
      * @param inputArray
      * @return
      */
-    public static Puzzle convertInputArrayToPuzzle(String[] inputArray) {
-        Cube[] cubes = new Cube[Puzzle.NUM_OF_CUBES];
+    public static Puzzle convertInputArrayToPuzzle(final String[] inputArray) {
+        final Cube[] cubes = new Cube[Puzzle.NUM_OF_CUBES];
         // Cube temp = new Cube();
 
         for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
@@ -140,14 +154,15 @@ public class InputController {
             cubes[i] = convertInputStringToCube(inputArray[i]);
         }
 
-        Puzzle puzzle = new Puzzle(cubes[0], cubes[1], cubes[2], cubes[3], cubes[4], cubes[5], cubes[6], cubes[7]);
+        final Puzzle puzzle = new Puzzle(cubes[0], cubes[1], cubes[2], cubes[3], cubes[4], cubes[5], cubes[6],
+                cubes[7]);
         return puzzle;
     }
 
     /**
      * 
      */
-    public static void printPromptMessage() {
+    private static void printChoicePromptMessage() {
         System.out.println("Please enter your 8 cubes.");
         System.out.println("Use the following format:");
         System.out.println("\t -Use the following 6 colors: red, orange, green, blue, purple, white");
@@ -158,6 +173,31 @@ public class InputController {
         System.out.println("----------------------------------");
     }
 
+    private static void printRandomPromptMessage() {
+        System.out.println("You have chosen 8 random cubes. They are as follows: ");
+
+    }
+
+    private static void printInitialPromptMessage() {
+        System.out.println("Welcome to Moshe's Insanity, based on the puzzle game Instant Insanity.");
+        System.out.println("Would you like to attempt to solve randomly generated cubes or your own cubes?");
+    }
+
+    private static String chooseCubeInputType() {
+        sc = new Scanner(System.in);
+
+        System.out.println("Please type 'r' for a random set of cubes.");
+        System.out.println("Please type 'c' to enter your own cubes.");
+        String choice = sc.nextLine();
+        while (choice.toLowerCase().equals('r') || choice.toLowerCase().equals('c')) {
+            System.out.println("Please type '1' for a random set of cubes.");
+            System.out.println("Please type '2' to enter your own cubes.");
+            choice = sc.nextLine();
+        }
+
+        return choice;
+    }
+
     /**
      * 
      * @param s the string we want to validate
@@ -165,9 +205,9 @@ public class InputController {
      */
     public static boolean isValidString(String s) {
         s = s.toLowerCase();
-        String[] colors = new String[] { "red", "orange", "green", "blue", "purple", "white", "r", "o", "g", "b", "p",
-                "w" };
-        Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
+        final String[] colors = new String[] { "red", "orange", "green", "blue", "purple", "white", "r", "o", "g", "b",
+                "p", "w" };
+        final Set<String> colorSet = new HashSet<>(Arrays.asList(colors));
 
         return colorSet.contains(s);
     }
@@ -180,7 +220,7 @@ public class InputController {
      *            that have been inserted)
      * @return
      */
-    public static boolean containsElement(String s, String[] arr, int itr) {
+    public static boolean containsElement(final String s, final String[] arr, final int itr) {
         for (int i = 0; i < itr; i++) {
             if (s.charAt(0) == arr[i].charAt(0)) {
                 return true;
@@ -188,5 +228,49 @@ public class InputController {
         }
         return false;
 
+    }
+
+    /**
+     * 
+     * @param indexOfCube the cube to be changed
+     */
+    private static void changeCubeInPuzzle(Puzzle puzzle) {
+        int indexOfCube = -1;
+        sc = new Scanner(System.in);
+        System.out.println(puzzle.toString());
+        System.out.println("Are you satsified with the cubes you have?");
+        System.out.println("Select 'n' if you want to change your cubes or 'y' if you're happy with your selection.");
+        String choice = sc.nextLine();
+        if (choice.equals("n")) { // we want to change a cube
+            System.out.println("What cube do you want to change?");
+            System.err.println("Please enter a single number from 1 to 8.");
+            indexOfCube = sc.nextInt();
+            while (!(indexOfCube > 0 || indexOfCube < 9)) { // while invalid
+                System.out.println("Invalid index, please try again.");
+                System.err.println("Please enter a single number from 1 to 8.");
+                indexOfCube = sc.nextInt();
+            }
+            puzzle.setCubes(indexOfCube, setCube());
+        }
+        sc.close();
+
+    }
+
+    private static Cube setCube() {
+        String[] cubeArray = new String[Cube.NUM_OF_FACES];
+
+        for (int j = 0; j < Cube.NUM_OF_FACES; j++) {
+            System.out.print("Enter " + FACES[j] + " face: ");
+            cubeArray[j] = sc.nextLine();
+            // if input is not a proper color of misspelled, prompt again and overwrite
+            // array entry
+            while (!isValidString(cubeArray[j]) || containsElement(cubeArray[j], cubeArray, j)) {
+                System.out.println("Invalid input, try again.");
+                System.out.print("Enter " + FACES[j] + " face: ");
+                cubeArray[j] = sc.nextLine();
+            }
+        }
+        String cubeString = cubeArray.toString().substring(1, cubeArray.length - 2);
+        return convertInputStringToCube(cubeString);
     }
 }
