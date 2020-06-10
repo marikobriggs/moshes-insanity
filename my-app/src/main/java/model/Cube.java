@@ -1,3 +1,10 @@
+/**
+ * Describes the Cube and its associated operations, including rotations, 
+ * 
+ * @author Mariko Briggs
+ * @version 1.0 
+ * @since April 2020 
+ */
 package model;
 
 import java.util.Arrays;
@@ -9,6 +16,9 @@ public class Cube {
     public static final int NUM_OF_FACES = 6;
 
     Color front, right, back, left, top, bottom;
+
+    // topBackLeft, topBackRight, topFrontRight, topFrontLeft, bottomBackLeft,
+    // bottomBackRight, bottomFrontRight, bottomFrontLeft
 
     public Cube() {
         this.front = Color.RED;
@@ -94,28 +104,28 @@ public class Cube {
      * @param cube
      * @return the same cube with RED facing front.
      */
-    public Cube toStandardOrientation(Cube cube) {
+    public Cube toStandardOrientation() {
         // the color we want to face the FRONT, always!
         Color stdColor = Color.RED;
         Cube standardCube = new Cube();
 
         // how to rotate each cube to get the given color to the FRONT
-        if (cube.getFront() == stdColor) {
-            return cube;
-        } else if (cube.getRight() == stdColor) { // RBLF --> FRBL
-            standardCube = rotateLeft(cube);
+        if (this.getFront() == stdColor) {
+            return this;
+        } else if (this.getRight() == stdColor) { // RBLF --> FRBL
+            standardCube = rotateLeft(this);
 
-        } else if (cube.getBack() == stdColor) { // BLFR --> FRBL
-            standardCube = rotateRight(rotateRight(cube));
+        } else if (this.getBack() == stdColor) { // BLFR --> FRBL
+            standardCube = rotateRight(rotateRight(this));
 
-        } else if (cube.getLeft() == stdColor) { // LFRB --> FRBL
-            standardCube = rotateRight(cube);
+        } else if (this.getLeft() == stdColor) { // LFRB --> FRBL
+            standardCube = rotateRight(this);
 
-        } else if (cube.getTop() == stdColor) { // --> FRBLTBo
-            standardCube = rotateDown(cube);
+        } else if (this.getTop() == stdColor) { // --> FRBLTBo
+            standardCube = rotateDown(this);
 
-        } else if (cube.getBottom() == stdColor) { // -->
-            standardCube = rotateUp(cube);
+        } else if (this.getBottom() == stdColor) { // -->
+            standardCube = rotateUp(this);
         }
         return standardCube;
     }
@@ -173,15 +183,61 @@ public class Cube {
 
     /**
      * Is this necessary? reasses
-     * 
+     *
      * @param cubes to be compared
      * @return
      */
     public Boolean isCyclic(Cube c1, Cube c2) {
-        // TODO: implement isCyclic
-        // look at first 4 array elements, use permutation approach to determine which
-        // perm it is
-        return false;
+        c1 = c1.toStandardOrientation();
+        c2 = c2.toStandardOrientation();
+
+        Color[] c1perm = Arrays.copyOfRange(c1.getArray(), 0, 3);
+        Color[] c2perm = Arrays.copyOfRange(c2.getArray(), 0, 3);
+
+        // check if the sets of the first 4 elements of the arrays are the same
+        if (!(convertArrayToSet(c1perm).equals(convertArrayToSet(c2perm)))) {
+            return false;
+        } else {
+            return isPermutation(c1perm, c2perm);
+        }
+    }
+
+    /**
+     * 
+     * @param c1
+     * @param c2
+     * @return
+     */
+    private Boolean isPermutation(Color[] c1, Color[] c2) {
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        String cubeColors1 = "";
+        String cubeColors2 = "";
+
+        // color array to string builder
+        for (int i = 0; i < c1.length; i++) {
+            sb1.append(c1[i].name());
+            sb2.append(c2[i].name());
+        }
+
+        // concats string to itself (abc --> abcabc)
+        sb1 = sb1.append(sb1.toString());
+
+        // if the first string of duped colors contains the second string, then we know
+        // that they are the same permutation
+        cubeColors1 = sb1.toString();
+        cubeColors2 = sb2.toString();
+
+        return cubeColors1.contains(cubeColors2);
+    }
+
+    /**
+     * 
+     * @param color
+     * @return
+     */
+    private Set<Color> convertArrayToSet(Color[] color) {
+        return new HashSet<>(Arrays.asList(color));
     }
 
     @Override
@@ -197,5 +253,4 @@ public class Cube {
 
         return false;
     }
-
 }

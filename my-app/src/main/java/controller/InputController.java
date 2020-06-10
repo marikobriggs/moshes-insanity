@@ -1,3 +1,10 @@
+/**
+ * 
+ * 
+ * @author Mariko Briggs
+ * @version 1.0 
+ * @since April 2020 
+ */
 package controller;
 
 import java.util.Arrays;

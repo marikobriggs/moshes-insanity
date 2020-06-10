@@ -1,17 +1,23 @@
+/**
+ * Describes the Puzzle, which is comprised of eight cubes and has a number of operations associated with it. 
+ * 
+ * @author Mariko Briggs
+ * @version 1.0 
+ * @since April 2020 
+ */
 package model;
 
 public class Puzzle {
     public static final int NUM_OF_CUBES = 8;
 
     private Cube[] cubes;
-    Corner[] corners;
+    // Corner[] corners;
 
     public Puzzle(Cube c1, Cube c2, Cube c3, Cube c4, Cube c5, Cube c6, Cube c7, Cube c8) {
         this.cubes = new Cube[] { c1, c2, c3, c4, c5, c6, c7, c8 };
     }
 
     public Puzzle() {
-
     }
 
     public Boolean isSolvable() {
