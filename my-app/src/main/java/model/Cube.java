@@ -113,72 +113,67 @@ public class Cube {
         if (this.getFront() == stdColor) {
             return this;
         } else if (this.getRight() == stdColor) { // RBLF --> FRBL
-            standardCube = rotateLeft(this);
+            standardCube = this.rotateLeft();
 
         } else if (this.getBack() == stdColor) { // BLFR --> FRBL
-            standardCube = rotateRight(rotateRight(this));
+            standardCube = this.rotateRight().rotateRight();
 
         } else if (this.getLeft() == stdColor) { // LFRB --> FRBL
-            standardCube = rotateRight(this);
+            standardCube = this.rotateRight();
 
         } else if (this.getTop() == stdColor) { // --> FRBLTBo
-            standardCube = rotateDown(this);
+            standardCube = this.rotateDown();
 
         } else if (this.getBottom() == stdColor) { // -->
-            standardCube = rotateUp(this);
+            standardCube = this.rotateUp();
         }
         return standardCube;
     }
 
     /**
-     * Rotates the given cube to the left such that the front face becomes the left
-     * face.
+     * Rotates the cube to the left such that the front face becomes the left face.
      * 
      * @param cube the cube to be rotated to the left
      * @return the given cube, rotated once to the left
      */
-    public Cube rotateLeft(Cube cube) {
+    public Cube rotateLeft() {
         // return new Cube(cube.getLeft(), cube.getFront(), cube.getRight(),
         // cube.getBack(), cube.getTop(),
         // cube.getBottom());
-        return rotateRight(rotateRight(rotateRight(cube)));
+        return this.rotateRight().rotateRight().rotateRight();
     }
 
     /**
      * Rotates the given cube to the right such that the front face becomes the
      * right face.
      * 
-     * @param cube the cube to be rotated to the right
      * @return the given cube, rotated once to the right
      */
-    public Cube rotateRight(Cube cube) {
-        return new Cube(cube.getRight(), cube.getBack(), cube.getLeft(), cube.getFront(), cube.getTop(),
-                cube.getBottom());
+    public Cube rotateRight() {
+        return new Cube(this.getRight(), this.getBack(), this.getLeft(), this.getFront(), this.getTop(),
+                this.getBottom());
     }
 
     /**
-     * Rotates the given cube upwards such that the front face becomes the top face.
+     * Rotates the cube upwards such that the front face becomes the top face.
      * 
-     * @param cube the cube to be rotated upwards
      * @return the given cube, rotated once upwards
      */
-    public Cube rotateUp(Cube cube) {
-        return new Cube(cube.getTop(), cube.getRight(), cube.getBottom(), cube.getLeft(), cube.getBack(),
-                cube.getFront());
+    public Cube rotateUp() {
+        return new Cube(this.getTop(), this.getRight(), this.getBottom(), this.getLeft(), this.getBack(),
+                this.getFront());
     }
 
     /**
-     * Rotates the given cube downwards such that the front face becomes the bottom
-     * face.
+     * Rotates the cube downwards such that the front face becomes the bottom face.
      * 
-     * @param cube the cube to be rotated downwards
      * @return the given cube, rotated once downwards
      */
-    public Cube rotateDown(Cube cube) {
+    public Cube rotateDown() {
         // return new Cube(cube.getBottom(), cube.getRight(), cube.getTop(),
         // cube.getLeft(), cube.getFront(),
         // cube.getBack());
-        return rotateUp(rotateUp(rotateUp(cube)));
+        return this.rotateUp().rotateUp().rotateUp();
     }
 
     /**
