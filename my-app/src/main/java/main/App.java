@@ -8,6 +8,8 @@
 package main;
 
 import controller.InputController;
+import controller.RandomController;
+import model.Cube;
 
 /**
  * 
@@ -15,6 +17,19 @@ import controller.InputController;
 public class App {
     public static void main(String[] args) {
         InputController.inputToPuzzle();
+        // test();
+
+    }
+
+    public static void test() {
+
+        Cube cube;
+        for (int i = 0; i < 10; i++) {
+            cube = RandomController.getRandomCube();
+            System.out.println(cube);
+            System.out.println(cube.toStandardOrientation());
+            System.out.println("");
+        }
 
     }
 
