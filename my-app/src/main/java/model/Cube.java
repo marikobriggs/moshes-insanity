@@ -14,6 +14,7 @@ import java.util.Set;
 public class Cube {
 
     public static final int NUM_OF_FACES = 6;
+    public static final int NUM_OF_COLORS_IN_CORNER = 3;
 
     Color front, right, back, left, top, bottom;
 
@@ -99,6 +100,62 @@ public class Cube {
     }
 
     /**
+     * 
+     * @param cornerPosition
+     * @return
+     */
+    public Color[] getCorner(int cornerPosition) {
+        Color[] corner = new Color[NUM_OF_COLORS_IN_CORNER];
+
+        // in order of [left/right, front/back, top/bottom]
+        // see the pattern?
+        switch (cornerPosition) {
+            case 1:
+                corner[0] = this.getLeft();
+                corner[1] = this.getBack();
+                corner[2] = this.getTop();
+                break;
+            case 2:
+                corner[0] = this.getRight();
+                corner[1] = this.getBack();
+                corner[2] = this.getTop();
+                break;
+            case 3:
+                corner[0] = this.getRight();
+                corner[1] = this.getFront();
+                corner[2] = this.getTop();
+                break;
+            case 4:
+                corner[0] = this.getLeft();
+                corner[1] = this.getFront();
+                corner[2] = this.getTop();
+                break;
+            case 5:
+                corner[0] = this.getLeft();
+                corner[1] = this.getBack();
+                corner[2] = this.getBottom();
+                break;
+            case 6:
+                corner[0] = this.getRight();
+                corner[1] = this.getBack();
+                corner[2] = this.getBottom();
+                break;
+            case 7:
+                corner[0] = this.getRight();
+                corner[1] = this.getFront();
+                corner[2] = this.getBottom();
+                break;
+            case 8:
+                corner[0] = this.getLeft();
+                corner[1] = this.getFront();
+                corner[2] = this.getBottom();
+                break;
+        }
+
+        return corner;
+    }
+
+    /**
      * Rotates a cube so that the Red face is facing the front.
      * 
      * @param cube
@@ -113,19 +170,18 @@ public class Cube {
         if (this.getFront() == stdColor) {
             return this;
         } else if (this.getRight() == stdColor) { // RBLF --> FRBL
-            standardCube = this.rotateLeft();
+            standardCube = this.rotateRight();
 
         } else if (this.getBack() == stdColor) { // BLFR --> FRBL
             standardCube = this.rotateRight().rotateRight();
 
         } else if (this.getLeft() == stdColor) { // LFRB --> FRBL
-            standardCube = this.rotateRight();
 
         } else if (this.getTop() == stdColor) { // --> FRBLTBo
-            standardCube = this.rotateDown();
+            standardCube = this.rotateUp();
 
         } else if (this.getBottom() == stdColor) { // -->
-            standardCube = this.rotateUp();
+            standardCube = this.rotateDown();
         }
         return standardCube;
     }
@@ -223,6 +279,8 @@ public class Cube {
         cubeColors1 = sb1.toString();
         cubeColors2 = sb2.toString();
 
+        // testing
+        System.out.println(cubeColors1.contains(cubeColors2));
         return cubeColors1.contains(cubeColors2);
     }
 
