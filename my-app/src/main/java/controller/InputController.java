@@ -42,10 +42,11 @@ public class InputController {
 
         } else { // user's choice of cubes
             printChoicePromptMessage();
-            final String[] inputArray = takeStdInput();
+            final String[][] inputArray = takeStdInput();
             puzzle = convertInputArrayToPuzzle(inputArray);
         }
         changeCubeInPuzzle(puzzle);
+        sc.close();
     }
 
     /**
@@ -53,14 +54,14 @@ public class InputController {
      * 
      * @return a String[] where each element is one cube's worth of faces
      */
-    public static String[] takeStdInput() {
+    public static String[][] takeStdInput() {
         // contains all of the faces in order of acceptance
         final String[] faces = new String[] { "front", "right", "back", "left", "top", "bottom" };
 
         sc = new Scanner(System.in);
 
         // final array of colors for any given cube
-        final String[] inputArray = new String[Puzzle.NUM_OF_CUBES];
+        final String[][] inputArray = new String[Puzzle.NUM_OF_CUBES][Cube.NUM_OF_FACES];
         // System.out.println(Arrays.toString(inputArray));
         String[] cubeArray = new String[Cube.NUM_OF_FACES];
         for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
@@ -76,42 +77,20 @@ public class InputController {
                     System.out.print("Enter " + faces[j] + " face: ");
                     cubeArray[j] = sc.nextLine();
                 }
-                inputArray[i] = cubeArray.toString().substring(1, cubeArray.length - 2);
+                // inputArray[i] = cubeArray.toString().substring(1, cubeArray.length - 2);
+                inputArray[i] = cubeArray;
             }
         }
-
-        sc.close();
-        return inputArray;
-    }
-
-    /**
-     * NOT FOR USE IN FINAL PRODUCT - TESTING ONLY. Opens a scanner to accept user
-     * input for 8 cubes, one cube at a time.
-     *
-     * @return a String[] where each element is one cube's worth of faces
-     */
-    public static String[] takeStdInputCube() {
-        final Scanner sc = new Scanner(System.in);
-        // array of colors for any given cube
-        final String[] inputArray = new String[Puzzle.NUM_OF_CUBES];
-
-        for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
-            System.out.println("Enter cube #" + (i + 1));
-            inputArray[i] = sc.nextLine();
-        }
-
-        sc.close();
         return inputArray;
     }
 
     /**
      * Takes an input string and converts it to a Cube object
      * 
-     * @param input a string of 6 ordered colors, delimited with a space
+     * @param input a string array of 6 ordered colors
      * @return a Cube with sides of user's colors
      */
-    public static Cube convertInputStringToCube(final String input) {
-        final String[] inputArr = input.split("[ ,]");
+    public static Cube convertInputArrayToCube(final String[] inputArr) {
         final Color[] faces = new Color[Cube.NUM_OF_FACES];
 
         for (int i = 0; i < Cube.NUM_OF_FACES; i++) {
@@ -151,14 +130,11 @@ public class InputController {
      * @param inputArray
      * @return
      */
-    public static Puzzle convertInputArrayToPuzzle(final String[] inputArray) {
+    public static Puzzle convertInputArrayToPuzzle(final String[][] inputArray) {
         final Cube[] cubes = new Cube[Puzzle.NUM_OF_CUBES];
-        // Cube temp = new Cube();
 
         for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
-            // temp = convertInputStringToCube(inputArray[i]);
-            // cubes[i] = temp;
-            cubes[i] = convertInputStringToCube(inputArray[i]);
+            cubes[i] = convertInputArrayToCube(inputArray[i]);
         }
 
         final Puzzle puzzle = new Puzzle(cubes[0], cubes[1], cubes[2], cubes[3], cubes[4], cubes[5], cubes[6],
@@ -234,7 +210,6 @@ public class InputController {
             }
         }
         return false;
-
     }
 
     /**
@@ -244,10 +219,12 @@ public class InputController {
     private static void changeCubeInPuzzle(Puzzle puzzle) {
         int indexOfCube = -1;
         sc = new Scanner(System.in);
+        String choice;
         System.out.println(puzzle.toString());
         System.out.println("Are you satsified with the cubes you have?");
         System.out.println("Select 'n' if you want to change your cubes or 'y' if you're happy with your selection.");
-        String choice = sc.nextLine();
+
+        choice = sc.nextLine();
         if (choice.equals("n")) { // we want to change a cube
             System.out.println("What cube do you want to change?");
             System.err.println("Please enter a single number from 1 to 8.");
@@ -259,25 +236,24 @@ public class InputController {
             }
             puzzle.setCubes(indexOfCube, setCube());
         }
-        sc.close();
-
     }
 
     private static Cube setCube() {
         String[] cubeArray = new String[Cube.NUM_OF_FACES];
 
+        // for each face, prompt user to set face
         for (int j = 0; j < Cube.NUM_OF_FACES; j++) {
             System.out.print("Enter " + FACES[j] + " face: ");
-            cubeArray[j] = sc.nextLine();
+            cubeArray[j] = sc.next();
+
             // if input is not a proper color of misspelled, prompt again and overwrite
             // array entry
             while (!isValidString(cubeArray[j]) || containsElement(cubeArray[j], cubeArray, j)) {
                 System.out.println("Invalid input, try again.");
                 System.out.print("Enter " + FACES[j] + " face: ");
-                cubeArray[j] = sc.nextLine();
+                cubeArray[j] = sc.next();
             }
         }
-        String cubeString = cubeArray.toString().substring(1, cubeArray.length - 2);
-        return convertInputStringToCube(cubeString);
+        return convertInputArrayToCube(cubeArray);
     }
 }
