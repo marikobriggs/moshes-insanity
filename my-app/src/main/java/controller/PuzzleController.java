@@ -15,10 +15,8 @@ import model.Cube;
 import model.Puzzle;
 
 public class PuzzleController {
-    // private static Scanner sc;
     private static final String[] orderArray = { "first", "second", "third", "fourth", "fifth", "sixth", "seventh",
             "eighth" };
-    // final int[] cornerArray;
     final Puzzle puzzle = RandomController.getRandomPuzzle(); // set to some random puzzle, as puzzle cubes cannot be
                                                               // set one by one (we will just replace)
     // choose cube
@@ -26,7 +24,7 @@ public class PuzzleController {
     public static void arrangePuzzle(Puzzle puzzle) {
         Scanner sc = new Scanner(System.in);
         int cubeChoice;
-        // Puzzle temp = new Puzzle();
+
         Cube tempCube = new Cube();
         Cube[] temp = new Cube[8];
 
@@ -37,10 +35,9 @@ public class PuzzleController {
             System.out.println("What cube would you like to place " + orderArray[i] + "?");
             System.out.print("Cube for position " + (i + 1) + " in puzzle: ");
             cubeChoice = sc.nextInt() - 1;
-            // System.out.println("cube choiceeeee" + cubeChoice);
             System.out.println(puzzle.getCubes()[cubeChoice]);
             tempCube = puzzle.getCubes()[cubeChoice];
-            // temp.setCube(i, tempCube); // set temp puzzle at corner i to the cube from
+            // set temp puzzle at corner i to the cube from
             // our
             // // current puzzle
             temp[i] = tempCube;
@@ -90,8 +87,6 @@ public class PuzzleController {
 
         if (choice != 1) {
             String solvable;
-            // System.out.println("About to do the work of checking if it's solvable!
-            // *************");
             if (puzzle.isSolvable()) {
                 solvable = "solvable.";
             } else {
@@ -101,16 +96,7 @@ public class PuzzleController {
             System.out.println("Your puzzle is " + solvable);
 
             printPuzzle(puzzle);
-
-            // if (puzzle.isSolved()) {
-            // System.out.println("You entered a solution!");
-            // } else {
-            // System.out.println("You did not enter a solution.");
-            // }
         }
-
-        // sc.close();
-
     }
 
     private static void printPuzzle(Puzzle puzzle) {
@@ -137,99 +123,6 @@ public class PuzzleController {
         }
 
     }
-    // public void arrangePuzzle() {
-    // sc = new Scanner(System.in);
-    // int puzzlePlacementChoice;
-    // printPuzzleIntstructions(); // explains entire puzzle
-    // printPuzzlePlacementText(); // shows ASCII of puzzle to guide cube placement
-
-    // System.out.println("These are the corners you have selected.");
-    // // prints all corners
-    // for (int i = 0; i < Cube.NUM_OF_CORNERS; i++) {
-    // // System.out.println(cornerArray[i]);
-    // }
-
-    // for (int i = 0; i < Cube.NUM_OF_CORNERS; i++) {
-    // System.out.println("Where would you like to place the " + orderArray[i] +
-    // "corner?");
-    // // corner placement code
-    // puzzlePlacementChoice = sc.nextInt();
-    // // where in puzzle, which cube, which corner of cube
-    // puzzle.setCorner(puzzlePlacementChoice, i, cornerArray[i]);
-
-    // System.out.println("Would you like to rotate the corner?");
-    // // rotate left, rotate right, no rotation
-
-    // }
-
-    // }
-
-    // /**
-    // * Chooses all of the corners that will be displayed.
-    // *
-    // * @param inputArray
-    // */
-    // public void chooseCubeCorners(final String[][] inputArray) {
-    // sc = new Scanner(System.in);
-    // int cubeChoice;
-    // final Cube[] cubes = new Cube[Puzzle.NUM_OF_CUBES];
-    // Color[] corner;
-
-    // // Create an array of cubes that contains all of the cubes
-    // for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
-    // cubes[i] = InputController.convertInputArrayToCube(inputArray[i]);
-    // System.out.println(cubes[i]);
-    // }
-    // // Choose a cube, and then choose a corner of the cube. Save the corner of
-    // the
-    // // cube in our array. Repeat until all 8 corners of cubes have been selected.
-    // for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
-    // // choose a cube
-    // do {
-    // cubeChoice = sc.nextInt();
-    // if (cubeChoice < 1 || cubeChoice > 8) {
-    // System.out.println("Invalid input, please try again.");
-    // }
-    // } while (cubeChoice < 1 || cubeChoice > 8);
-
-    // // // once cube is chosen, choose the corner of the cube
-    // // corner = chooseCorners(cubes[cubeChoice]);
-    // // save cube corner to corner array, where index corresponds to the cube
-    // number
-    // // cornerArray[cubeChoice] = corner;
-    // // prints the number of corner chosen, plus the chosen corner itself, plus
-    // the
-    // // cube
-    // cornerArray[i] = System.out.println("You have chosen corner " + cubeChoice +
-    // ": "
-    // + Arrays.deepToString(corner) + " from " + cubes[cubeChoice]);
-    // }
-    // }
-
-    // // currently no input validation.
-    // // add this code pls
-    // }
-
-    // /**
-    // * Given a cube, display the corners. Have user select a corner.
-    // *
-    // * @param cube a single cube
-    // * @return a single corner of that cube
-    // */
-    // public int chooseCorner(Cube cube) {
-    // sc = new Scanner(System.in);
-    // int cornerChoice;
-
-    // cube.toStandardOrientation(); // ensure that red is facing towards us for
-    // consistency
-    // printAllCorners(cube);
-    // chooseCornersText();
-    // cornerChoice = sc.nextInt();
-    // System.out.println("You have chosen corner " + cornerChoice + ": " +
-    // cube.getCorner(cornerChoice));
-    // // add option to confirm/reselect corner?
-    // return cornerChoice;
-    // }
 
     public static void chooseCubeText() {
         System.out.println("What cube would you like to choose?");

@@ -20,9 +20,6 @@ public class Cube {
     Color front, right, back, left, top, bottom;
     public Color[] visibleCorner;
 
-    // topBackLeft, topBackRight, topFrontRight, topFrontLeft, bottomBackLeft,
-    // bottomBackRight, bottomFrontRight, bottomFrontLeft
-
     public Cube() {
         this.front = Color.RED;
         this.right = Color.ORANGE;
@@ -118,22 +115,6 @@ public class Cube {
     public Color[] getArray() {
         return new Color[] { this.front, this.right, this.back, this.left, this.top, this.bottom };
     }
-
-    // /**
-    // * Checks if a corner exists in a cube.
-    // *
-    // * @param corner
-    // * @return
-    // */
-    // public static boolean containsCorner(Color[] corner, Color[][] cubeCorners) {
-
-    // for (int i = 0; i < cubeCorners.length; i++) {
-    // if (Arrays.equals(cubeCorners[i], corner) || isPermutation(cubeCorners[i],
-    // corner))
-    // return true;
-    // }
-    // return false;
-    // }
 
     public Color[][] getCorners() {
         Color[][] corners = new Color[Puzzle.NUM_OF_CUBES][NUM_OF_COLORS_IN_CORNER];
@@ -292,9 +273,6 @@ public class Cube {
      * @return the given cube, rotated once to the left
      */
     public Cube rotateFrontToRight() {
-        // return new Cube(cube.getLeft(), cube.getFront(), cube.getRight(),
-        // cube.getBack(), cube.getTop(),
-        // cube.getBottom());
         return this.rotateFrontToLeft().rotateFrontToLeft().rotateFrontToLeft();
     }
 
@@ -325,9 +303,6 @@ public class Cube {
      * @return the given cube, rotated once downwards
      */
     public Cube rotateFrontToTop() {
-        // return new Cube(cube.getBottom(), cube.getRight(), cube.getTop(),
-        // cube.getLeft(), cube.getFront(),
-        // cube.getBack());
         return this.rotateFrontToBottom().rotateFrontToBottom().rotateFrontToBottom();
     }
 
@@ -339,10 +314,6 @@ public class Cube {
 
     public Cube rotateTopToRight() {
         return this.rotateTopToLeft().rotateTopToLeft().rotateTopToLeft();
-        // return new Cube(this.getFront(), this.getTop(), this.getBack(),
-        // this.getBottom(), this.getLeft(),
-        // this.getRight());
-
     }
 
     /**
@@ -385,21 +356,13 @@ public class Cube {
             sb1.append(c1[i].name());
             sb2.append(c2[i].name());
         }
-        // System.out.println("sb1: " + sb1.toString());
-        // System.out.println("sb2: " + sb2.toString());
-        // concats string to itself (abc --> abcabc)
+
         sb1 = sb1.append(sb1.toString());
-        // System.out.println("sb1 looped: " + sb1.toString());
+
         // if the first string of duped colors contains the second string, then we know
         // that they are the same permutation
         cubeColors1 = sb1.toString();
         cubeColors2 = sb2.toString();
-
-        // testing
-        // System.out.println(cubeColors1.contains(cubeColors2));
-        // if (temp == 10) {
-        // System.exit(0);
-        // }
 
         temp++;
         return cubeColors1.contains(cubeColors2);

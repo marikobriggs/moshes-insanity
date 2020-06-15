@@ -8,7 +8,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Puzzle {
     public static final int NUM_OF_CUBES = 8;
@@ -19,7 +18,6 @@ public class Puzzle {
     private static Cube[] solutionCubes = {
 
     };
-    // private Color[][][][] solutionS
 
     public Puzzle(Cube c1, Cube c2, Cube c3, Cube c4, Cube c5, Cube c6, Cube c7, Cube c8) {
         this.cubes = new Cube[] { c1, c2, c3, c4, c5, c6, c7, c8 };
@@ -38,12 +36,8 @@ public class Puzzle {
         boolean[][] matrix;
         for (int i = 0; i < solutionCubes.length; i++) {
             solutionSet = solutionCubes[i].getCorners();
-            // System.out.println(solutionSet.length);
-
-            // System.out.println(Arrays.deepToString(solutionSet));
-
             matrix = PuzzleSolutions.generateMatrix(solutionSet, puzzle);
-            System.out.println("returned from gen matrix!!!");
+
             for (int b = 0; b < matrix.length; b++) {
                 System.out.println("");
                 for (int c = 0; c < matrix[b].length; c++) {
@@ -59,8 +53,9 @@ public class Puzzle {
             }
         }
         return false;
-
     }
+
+    // Bipartite matching code from Geeksforgeeks.com
 
     // A DFS based recursive function that
     // returns true if a matching for
@@ -131,10 +126,6 @@ public class Puzzle {
 
     public void setCube(int index, Cube cube) {
         this.cubes[index] = cube;
-    }
-
-    public void setCorner(int index, Cube cube, int cornerChoice) {
-        // cubes[index] =
     }
 
     @Override

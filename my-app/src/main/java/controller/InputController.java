@@ -80,7 +80,6 @@ public class InputController {
                     System.out.print("Enter " + faces[j] + " face: ");
                     cubeArray[j] = sc.nextLine();
                 }
-                // inputArray[i] = cubeArray.toString().substring(1, cubeArray.length - 2);
                 inputArray[i] = cubeArray;
             }
         }
