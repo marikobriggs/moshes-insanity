@@ -8,16 +8,25 @@
 package main;
 
 import controller.InputController;
+import controller.PuzzleController;
 import controller.RandomController;
 import model.Cube;
+import model.Puzzle;
 
 /**
  * 
  */
 public class App {
-    public static void main(String[] args) {
-        InputController.inputToPuzzle();
+    public static void main(final String[] args) {
+        // generatePermutations();
+        // generateSolutions();
+        // InputController.inputToPuzzle();
         // test();
+        // RandomController.testRandomCubes(10);
+        Puzzle.generate();
+        // RandomController.testRandomCubes(10);
+        Puzzle puzzle = InputController.inputToPuzzle();
+        PuzzleController.arrangePuzzle(puzzle);
 
     }
 

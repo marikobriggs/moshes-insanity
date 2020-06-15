@@ -44,15 +44,17 @@ public class RandomController {
 
     public static void testRandomCubes(int sampleSize) {
         int numOfSolvable = 0;
-        double rateOfSolvability = 0.0;
+        // double rateOfSolvability = 0.0;
         for (int i = 0; i < sampleSize; i++) {
             if (getRandomPuzzle().isSolvable()) {
                 numOfSolvable++;
             }
         }
-        rateOfSolvability = numOfSolvable / sampleSize;
+        // rateOfSolvability = numOfSolvable / sampleSize;
         System.out.println("We tested " + sampleSize + " number of random cubes.");
         System.out.println("Out of these, " + (sampleSize - numOfSolvable) + " were solvable.");
-        System.out.println("Thus, approximately " + rateOfSolvability + "% were solvable.");
+        // System.out.println(
+        // "Thus, approximately " + (double) ((sampleSize - numOfSolvable) / sampleSize)
+        // + "% were solvable.");
     }
 }

@@ -31,7 +31,7 @@ public class InputController {
     /**
      * Combines everything! Takes input, creates puzzle, offers to change input
      */
-    public static void inputToPuzzle() {
+    public static Puzzle inputToPuzzle() {
         Puzzle puzzle = new Puzzle();
 
         printInitialPromptMessage();
@@ -46,7 +46,9 @@ public class InputController {
             puzzle = convertInputArrayToPuzzle(inputArray);
         }
         changeCubeInPuzzle(puzzle);
-        sc.close();
+        // sc.close();
+
+        return puzzle;
     }
 
     /**
@@ -67,6 +69,7 @@ public class InputController {
         for (int i = 0; i < Puzzle.NUM_OF_CUBES; i++) {
             cubeArray = new String[Cube.NUM_OF_FACES];
             System.out.println("Enter cube #" + (i + 1));
+
             for (int j = 0; j < Cube.NUM_OF_FACES; j++) {
                 System.out.print("Enter " + faces[j] + " face: ");
                 cubeArray[j] = sc.nextLine();
@@ -173,8 +176,8 @@ public class InputController {
         System.out.println("Please type 'c' to enter your own cubes.");
         String choice = sc.nextLine();
         while (choice.toLowerCase().equals('r') || choice.toLowerCase().equals('c')) {
-            System.out.println("Please type '1' for a random set of cubes.");
-            System.out.println("Please type '2' to enter your own cubes.");
+            System.out.println("Please type 'r' for a random set of cubes.");
+            System.out.println("Please type 'c' to enter your own cubes.");
             choice = sc.nextLine();
         }
 
@@ -234,7 +237,7 @@ public class InputController {
                 System.err.println("Please enter a single number from 1 to 8.");
                 indexOfCube = sc.nextInt();
             }
-            puzzle.setCubes(indexOfCube, setCube());
+            puzzle.setCube(indexOfCube - 1, setCube());
         }
     }
 
