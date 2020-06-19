@@ -49,6 +49,8 @@ public class PuzzleController {
 
         int choice;
         System.out.println("Would you like to rotate any of the cubes?");
+        System.out.println("Rotating the cube changes which corner is visible.");
+        System.out.println("The first three colors show the corner that is visible.");
 
         System.out.println("Please type '1' to rotate. Please type '2' to finish. ");
         choice = sc.nextInt();
@@ -79,6 +81,9 @@ public class PuzzleController {
             rotationChoice = sc.nextInt();
 
             rotateCorner(puzzle, cubeChoice - 1, rotationChoice);
+            puzzle.getCubes()[cubeChoice - 1].setVisibleCorner(1); // sets the visible corner to be the first three of
+                                                                   // the cube
+            System.out.println("Your new corner is" + returnFirstCornerString(puzzle.getCubes()[cubeChoice - 1]));
             printPuzzle(puzzle);
 
             System.out.println("Would you like to make another rotation? (1) yes or (2) no.");
@@ -86,17 +91,31 @@ public class PuzzleController {
         }
 
         if (choice != 1) {
-            String solvable;
-            if (puzzle.isSolvable()) {
-                solvable = "solvable.";
-            } else {
-                solvable = "not solvable.";
+            String solvable = "";
+            System.out.println(
+                    "Would you like to (1) test your specific solution or (2) see if the whole cube is solvable?");
+            choice = sc.nextInt();
+            if (choice == 1)
+                if (puzzle.isSolvableSolution())
+                    solvable = "solvable.";
+                else
+                    solvable = "not solvable.";
+
+            else {
+                if (puzzle.isSolvable())
+                    solvable = "solvable.";
+                else
+                    solvable = "not solvable.";
             }
 
             System.out.println("Your puzzle is " + solvable);
 
             printPuzzle(puzzle);
         }
+    }
+
+    private static String returnFirstCornerString(Cube cube) {
+        return cube.getFront().name() + " " + cube.getRight().name() + " " + cube.getBack().name();
     }
 
     private static void printPuzzle(Puzzle puzzle) {

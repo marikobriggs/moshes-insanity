@@ -104,6 +104,55 @@ public class Cube {
         return this.visibleCorner;
     }
 
+    public void setVisibleCorner(int cornerPosition) {
+        Color[] corner = new Color[3];
+
+        switch (cornerPosition) {
+            case 1:
+                corner[0] = this.getLeft();
+                corner[1] = this.getBack();
+                corner[2] = this.getTop();
+                break;
+            case 2:
+                corner[0] = this.getRight();
+                corner[1] = this.getBack();
+                corner[2] = this.getTop();
+                break;
+            case 3:
+                corner[0] = this.getRight();
+                corner[1] = this.getFront();
+                corner[2] = this.getTop();
+                break;
+            case 4:
+                corner[0] = this.getLeft();
+                corner[1] = this.getFront();
+                corner[2] = this.getTop();
+                break;
+            case 5:
+                corner[0] = this.getLeft();
+                corner[1] = this.getBack();
+                corner[2] = this.getBottom();
+                break;
+            case 6:
+                corner[0] = this.getRight();
+                corner[1] = this.getBack();
+                corner[2] = this.getBottom();
+                break;
+            case 7:
+                corner[0] = this.getRight();
+                corner[1] = this.getFront();
+                corner[2] = this.getBottom();
+                break;
+            case 8:
+                corner[0] = this.getLeft();
+                corner[1] = this.getFront();
+                corner[2] = this.getBottom();
+                break;
+        }
+
+        this.setVisibleCorner(corner);
+    }
+
     public void setVisibleCorner(Color[] visibleCorner) {
         this.visibleCorner = visibleCorner;
     }

@@ -55,6 +55,31 @@ public class Puzzle {
         return false;
     }
 
+    public Boolean isSolvableSolution() {
+        Cube[] puzzle = this.getCubes();
+        Color[][] solutionSet;
+        boolean[][] matrix;
+        for (int i = 0; i < solutionCubes.length; i++) {
+            solutionSet = solutionCubes[i].getCorners();
+            matrix = PuzzleSolutions.generateMatrix(true, solutionSet, puzzle);
+
+            for (int b = 0; b < matrix.length; b++) {
+                System.out.println("");
+                for (int c = 0; c < matrix[b].length; c++) {
+                    System.out.print(" " + matrix[b][c]);
+                }
+            }
+            int maxBPM = maxBPM(matrix);
+            System.out.println("\nMax number of matches out of 8: " + maxBPM);
+
+            // if (maxBPM(matrix) == 8) {
+            if (maxBPM == 8) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Bipartite matching code from Geeksforgeeks.com
 
     // A DFS based recursive function that
@@ -182,6 +207,25 @@ public class Puzzle {
 
             for (int i = 0; i < 8; i++) { // for each cube
                 for (int j = 0; j < 8; j++) { // check each corner
+                    for (int k = 0; k < solutionSet.length; k++) { // check if corner is in sol set
+                        // containsCorner takes single corner and single cube's worth of corners
+                        // iterate over entire solution set and check each solution corner with
+                        // puzzleCorners
+                        if (containsCorner(solutionSet[k], puzzleCorners[j])) {
+                            matrix[j][k] = true;
+                        }
+                    }
+                }
+            }
+            return matrix;
+        }
+
+        public static boolean[][] generateMatrix(boolean three, Color[][] solutionSet, Cube[] cubes) {
+            boolean[][] matrix = new boolean[8][3]; // if testing a specific solution. corners always = 3
+            Color[][][] puzzleCorners = getPuzzleCorners(cubes);
+
+            for (int i = 0; i < 8; i++) { // for each cube
+                for (int j = 0; j < 3; j++) { // check each corner
                     for (int k = 0; k < solutionSet.length; k++) { // check if corner is in sol set
                         // containsCorner takes single corner and single cube's worth of corners
                         // iterate over entire solution set and check each solution corner with
