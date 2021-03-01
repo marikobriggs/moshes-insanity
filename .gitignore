@@ -1,10 +1,13 @@
+# Mac stuff 
+.DS_Store
+
 # Project specific stuff 
 .vscode 
 .settings
 .classpath
 .project
 
-# Compiled class file
+# Compiled class files
 *.class
 
 # Log file
